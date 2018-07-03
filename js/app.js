@@ -1,3 +1,47 @@
+/*My vocabulary:
+sprite = image, 2d bitmap, nejedná se o nějakou metodu, jen slovo
+render = draw image, vykreslování
+*/
+
+//Common class for Enemies and Player
+
+class Entity {
+    constructor() {
+        this.sprite = 'images/';
+        this.x = 2;
+        this.y = 5;
+    }
+
+    render() {
+        ctx.drawImage(Resources.get(this.sprite), this.x * 100, this.y * 80);
+    }
+}
+
+//Subclasses for Players and enemies
+
+class Player extends Entity {
+    constructor() {
+        super();
+        this.sprite += 'char-boy.png';
+    }
+}
+
+class Enemy extends Entity {
+    constructor(x, y) {
+        super(x = 1, y);
+        this.sprite += 'enemy-bug.png';
+        this.x = 1;
+        this.y = 5;
+    }
+}
+
+
+const player = new Player; 
+const enemy = new Enemy;
+
+//ORIGINAL - PROVIDED CODE:
+
+/*
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
@@ -30,7 +74,7 @@ Enemy.prototype.render = function() {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-
+*/
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

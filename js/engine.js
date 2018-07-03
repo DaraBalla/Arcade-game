@@ -150,10 +150,10 @@ var Engine = (function(global) {
          * the render function you have defined.
          */
         //allEnemies.forEach(function(enemy) { - prozatím nedefinováno, proto vykomentováno,a by se mi načetl board nazačátku
-        //    enemy.render();
+        enemy.render();
         //});
 
-        //player.render();
+        player.render();
     }
 
     /* This function does nothing but it could have been a good place to
