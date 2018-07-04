@@ -1,6 +1,8 @@
 /*My vocabulary:
 sprite = image, 2d bitmap, nejedná se o nějakou metodu, jen slovo
 render = draw image, vykreslování
+drawImage() = We render the image using drawImage() method with the context (ctx) that has been established for the canvas.
+
 */
 
 //Common class for Enemies and Player
@@ -8,36 +10,74 @@ render = draw image, vykreslování
 class Entity {
     constructor() {
         this.sprite = 'images/';
-        this.x = 2;
-        this.y = 5;
+        this.x = 2; //tady můžu mit obecne = x a y a specifikovat to jen u player konkrétně a u enemyto nechat dle tohoto classu a neupravovat = ať to není stejné jako ve videu 
+        this.y = 5; // čísla specifikují block-movement (dle indexu)
     }
 
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x * 100, this.y * 80);
     }
+
+    update(dt) {
+        this.isOutOfBoundX = this.x > 5;
+        this.isOutOfBoundY = this.y < 1
+    }
+
+
 }
 
-//Subclasses for Players and enemies
+//Subclasses for players and enemies
 
 class Player extends Entity {
     constructor() {
         super();
         this.sprite += 'char-boy.png';
+    } //proč tady potom nikde nemám převzetí i funkce render a funguje to? - Asi když je nezměněna, tak platí i tak
+
+    handleInput(input) { // za sebe vytvořit 4 různá eventlistenery s if/else?
+        switch (input) {
+            case 'left':
+                this.x = this.x > 0 ? this.x - 1 : this.x;
+                break;
+            case 'up':
+                this.y = this.y > 0 ? this.y - 1 : this.y;
+                break;
+            case 'right':
+                this.x = this.x < 4 ? this.x + 1 : this.x;
+                break;
+            case 'down':
+                this.y = this.y < 5 ? this.y + 1 : this.y;
+                break;
+            default:
+                break;
+        }
     }
-}
+} 
 
 class Enemy extends Entity {
     constructor(x, y) {
-        super(x = 1, y);
+        super(x, y);
         this.sprite += 'enemy-bug.png';
-        this.x = 1;
-        this.y = 5;
+        this.x = x;
+        this.y = y;
+    }
+
+    update(dt) { // posouvá enemies
+        super.update();
+        if (this.isOutOfBoundX) {
+            this.x = -1; // i can make start position elsewhere
+        }
+        else {
+            this.x += dt; // i can make a random pace with a random method
+        }
+         
     }
 }
 
 
-const player = new Player; 
-const enemy = new Enemy;
+const player = new Player;
+const allEnemies = [...Array(3)].map((_,i) => new Enemy(0,i+1)); //vytvořit různé enemies extra a manuálněje dát do array?
+//const enemy = new Enemy(0.001, 1.8);
 
 //ORIGINAL - PROVIDED CODE:
 
