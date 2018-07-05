@@ -79,8 +79,18 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
     }
+
+    function checkCollisions() {
+        allEnemies.forEach(enemy => {
+            if(enemy.checkCollisions(player) || player.checkCollisions(enemy)) {
+                player.y = 5;
+                player.x = 2;
+            };    
+        });
+    };
+    
 
     /* This is called by the update function and loops through all of the
      * objects within your allEnemies array as defined in app.js and calls
@@ -93,7 +103,7 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) { //- prozatím nedefinováno, proto vykomentováno,a by se mi načetl board nazačátku
             enemy.update(dt);
         });
-        //player.update();
+        player.update();
     }
 
     /* This function initially draws the "game level", it will then call

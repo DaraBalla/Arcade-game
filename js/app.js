@@ -15,7 +15,7 @@ class Entity {
     }
 
     render() {
-        ctx.drawImage(Resources.get(this.sprite), this.x * 100, this.y * 80);
+        ctx.drawImage(Resources.get(this.sprite), this.x * 101, this.y * 83);
     }
 
     update(dt) {
@@ -23,6 +23,16 @@ class Entity {
         this.isOutOfBoundY = this.y < 1
     }
 
+    checkCollisions(playerOrEnemy) {
+        if (this.y === playerOrEnemy.y) {
+            if (this.x >= playerOrEnemy.x - 0.5 && this.x <= playerOrEnemy.x + 0.5) { //the number means the high of sensitivity, how near/far the collision is
+                return true;
+            }
+        }
+        else {
+            return false;
+        }
+    }
 
 }
 
@@ -32,7 +42,22 @@ class Player extends Entity {
     constructor() {
         super();
         this.sprite += 'char-boy.png';
+        this.moving = false;
+        this.win = false;
     } //proč tady potom nikde nemám převzetí i funkce render a funguje to? - Asi když je nezměněna, tak platí i tak
+
+    update(dt) {
+        super.update();
+        if (this.isOutOfBoundY && !this.moving && !this.win) {
+            alert("Win");
+            this.win = true;
+        }
+    }
+
+    render() {
+        super.render();
+        this.moving = false;
+    }
 
     handleInput(input) { // za sebe vytvořit 4 různá eventlistenery s if/else?
         switch (input) {
@@ -51,12 +76,13 @@ class Player extends Entity {
             default:
                 break;
         }
+        this.moving = true;
     }
 } 
 
 class Enemy extends Entity {
     constructor(x, y) {
-        super(x, y);
+        super();
         this.sprite += 'enemy-bug.png';
         this.x = x;
         this.y = y;
