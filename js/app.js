@@ -1,11 +1,14 @@
-/*My vocabulary:
-sprite = image, 2d bitmap, nejedná se o nějakou metodu, jen slovo
+/*My personal vocabulary:
+sprite = image, 2d bitmap, not a method, just word
 render = draw image, vykreslování
 drawImage() = We render the image using drawImage() method with the context (ctx) that has been established for the canvas.
-
 */
 
-//Common class for Enemies and Player
+/*
+ *
+ * Common class for Enemies and Player
+ *   
+ */
 
 class Entity {
     constructor() {
@@ -14,6 +17,7 @@ class Entity {
         this.y = 5; // čísla specifikují block-movement (dle indexu)
     }
 
+    // Draw the image on the screen, required method for game
     render() {
         ctx.drawImage(Resources.get(this.sprite), this.x * 101, this.y * 83);
     }
@@ -36,7 +40,49 @@ class Entity {
 
 }
 
-//Subclasses for players and enemies
+/*
+ *
+ * Subclasses for players and enemies
+ * 
+ */
+
+
+// Enemies our player must avoid
+// Variables applied to each of our instances go here,
+// we've provided one for you to get started
+// The image/sprite for our enemies, this uses
+// a helper we've provided to easily load images
+
+class Enemy extends Entity {
+    constructor(x, y) {
+        super();
+        this.sprite += 'enemy-bug.png';
+        this.x = x;
+        this.y = y;
+    }
+
+// Update the enemy's position, required method for game
+// Parameter: dt, a time delta between ticks
+    // You should multiply any movement by the dt parameter
+    // which will ensure the game runs at the same speed for
+    // all computers.
+
+
+    update(dt) { // move the enemies
+        super.update();
+        if (this.isOutOfBoundX) {
+            this.x = Math.random() * (-4); 
+        }
+        else {
+            this.x += dt * 2;
+        }
+         
+    }
+}
+
+// Now write your own player class
+// This class requires an update(), render() and
+// a handleInput() method.
 
 class Player extends Entity {
     constructor() {
@@ -49,7 +95,7 @@ class Player extends Entity {
     update(dt) {
         super.update();
         if (this.isOutOfBoundY && !this.moving) {
-            alert("CONGRATULATION! YOU WON! If you want to play again, just click OK! If you don't want to play again, just close the current website :P");
+            alert("CONGRATULATION! YOU HAVE WON! If you want to play again, just press ENTER! If you don't want to play again, just close the current website :P");
             this.win = true;
             this.resetGame()
         }
@@ -86,67 +132,16 @@ class Player extends Entity {
     }
 } 
 
-class Enemy extends Entity {
-    constructor(x, y) {
-        super();
-        this.sprite += 'enemy-bug.png';
-        this.x = x;
-        this.y = y;
-    }
-
-    update(dt) { // posouvá enemies
-        super.update();
-        if (this.isOutOfBoundX) {
-            this.x = Math.random() * (-4); // i can make start position elsewhere
-        }
-        else {
-            this.x += dt * 2; // i can make a random pace with a random method
-        }
-         
-    }
-}
-
-
-const player = new Player;
-const allEnemies = [...Array(3)].map((_,i) => new Enemy(Math.random()*i*(-2),i+1)); //vytvořit různé enemies extra a manuálněje dát do array?
-//const enemy = new Enemy(0.001, 1.8);
-
-//ORIGINAL - PROVIDED CODE:
-
-/*
-// Enemies our player must avoid
-var Enemy = function() {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
-};
-
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-};
-
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
 
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-*/
+
+const allEnemies = [...Array(3)].map((_,i) => new Enemy(Math.random()*i*(-2),i+1)); //vytvořit různé enemies extra a manuálněje dát do array?
+const player = new Player;
+
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
