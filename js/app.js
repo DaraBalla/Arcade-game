@@ -48,10 +48,16 @@ class Player extends Entity {
 
     update(dt) {
         super.update();
-        if (this.isOutOfBoundY && !this.moving && !this.win) {
-            alert("Win");
+        if (this.isOutOfBoundY && !this.moving) {
+            alert("CONGRATULATION! YOU WON! If you want to play again, just click OK! If you don't want to play again, just close the current website :P");
             this.win = true;
+            this.resetGame()
         }
+    }
+
+    resetGame() {
+        this.x = 2; //tady můžu mit obecne = x a y a specifikovat to jen u player konkrétně a u enemyto nechat dle tohoto classu a neupravovat = ať to není stejné jako ve videu 
+        this.y = 5;
     }
 
     render() {
