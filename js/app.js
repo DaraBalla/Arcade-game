@@ -91,10 +91,10 @@ class Enemy extends Entity {
     update(dt) { // posouvá enemies
         super.update();
         if (this.isOutOfBoundX) {
-            this.x = -1; // i can make start position elsewhere
+            this.x = Math.random() * (-4); // i can make start position elsewhere
         }
         else {
-            this.x += dt; // i can make a random pace with a random method
+            this.x += dt * 2; // i can make a random pace with a random method
         }
          
     }
@@ -102,7 +102,7 @@ class Enemy extends Entity {
 
 
 const player = new Player;
-const allEnemies = [...Array(3)].map((_,i) => new Enemy(0,i+1)); //vytvořit různé enemies extra a manuálněje dát do array?
+const allEnemies = [...Array(3)].map((_,i) => new Enemy(Math.random()*i*(-2),i+1)); //vytvořit různé enemies extra a manuálněje dát do array?
 //const enemy = new Enemy(0.001, 1.8);
 
 //ORIGINAL - PROVIDED CODE:
